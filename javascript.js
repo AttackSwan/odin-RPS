@@ -1,5 +1,3 @@
-const playerSelection = "Rock"
-
 game()
 
 function game(){   
@@ -7,19 +5,22 @@ function game(){
     let computerWins = 0
     let ties = 0
     let games = 0
+    let bestOf = 3  //Best of how many games
+    let keepPlaying = true
     let roundMessage = "Message returned after playing a round"
     let result = "First four letter of roundMessage for calculating wins and loses"
+    let winner = "The name of the winner"
     
 
-    //Play best of five games
-    while(games < 5){
-        //get player and computer choices
+    //Play until bestOf (number of wins) is reached
+    while(keepPlaying){
+        const playerSelection = getPlayerChoice()
         const computerSelection = getComputerChoice()
         
         //play a round and return who wins
         roundMessage = playRound(playerSelection, computerSelection)
 
-        //update wins/loses if the game wasn't a tie
+        //update wins, loses, and ties
         result = roundMessage.substring(0,5)
         if(result === "You w"){
             playerWins++
@@ -31,12 +32,33 @@ function game(){
         }
         else if (result === "Tie! "){
             ties++
+            games++
         }
         
         //check best of five
-        
-        console.log(roundMessage + "                 Games: " + games + " Ties: " + ties)
+        if(playerWins >= bestOf){
+            keepPlaying = false
+            winner = "Player"
+        }
+        else if(computerWins >= bestOf){
+            keepPlaying = false
+            winner = "Computer"
+        }
+
+        //|| computerWins < 3
+       alert("Round " + games + ", " + roundMessage + ".    (Wins: " + playerWins + " | Loses: " + computerWins + " | Ties: " + ties + ")")
+        console.log(" Wins: " + playerWins + " loses: " + computerWins + " Ties: " + ties + " Games: " + (playerWins + computerWins + ties))
     }
+
+    //display final result and ask to play again
+    alert("Game over! " + winner + " wins best of " + bestOf)
+    keepPlaying = playAgain()
+    
+    //If true, play another game
+    if(keepPlaying){
+        game()
+    }
+
 }
 
 function playRound(playerSelection, computerSelection){
@@ -74,19 +96,30 @@ function playRound(playerSelection, computerSelection){
         result = "You lose! Rock beats Scissors"
     }
     else{
-        result - "Error: invalid choice"
+    console.log("Invalid game outcome")
     }
     return result
 }
 
 function getPlayerChoice(){
+    
     let playerChoice = prompt("Rock, Paper, or Scissors?")
-    return playerChoice
+    playerChoice = playerChoice.toLowerCase()
+    
+    while(true){
+        if(playerChoice === "rock" || playerChoice === "paper" || playerChoice === "scissors"){ //
+            return playerChoice
+        }
+        else{
+            alert("Error: invalid choice. Please make another selection")
+            playerChoice = prompt("Rock, Paper, or Scissors?")
+            playerChoice = playerChoice.toLowerCase()
+        }
+    }
 }
 
 function getComputerChoice(){
-    //generate a random computer choice. 1 for rock, 2 for paper, 3 for scissors.
-    
+    //generate a random computer choice. 1 for rock, 2 for paper, 3 for scissors.   
     //generate random number between 1 and 3. Formula is: Math.floor(Math.random() * (max - min + 1)) + min;
     let randomNumber = Math.floor(Math.random() * 3) + 1;
     let computerChoice
@@ -106,4 +139,22 @@ function getComputerChoice(){
             break;
     }
     return computerChoice
+}
+
+function playAgain(){    //Validates input
+    let playAgain = prompt("Would you like to play again? Y/N")
+    playAgain = playAgain.toLowerCase()
+    while(true){
+        if(playAgain === "y" || playAgain === "yes"){
+            return true
+            }
+        else if(playAgain === "n" || playAgain === "no"){
+            return false
+            }
+        else{
+            alert("Error: invalid choice. Please make another selection")
+            playAgain = prompt("Would you like to play again? Y/N")
+            playAgain = playAgain.toLowerCase()
+        }
+    }
 }
