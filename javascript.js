@@ -1,3 +1,113 @@
+//Set up button listeners
+const btnRock       = document.querySelector('#rock');
+const btnPaper      = document.querySelector('#paper');
+const btnScissors   = document.querySelector('#scissors');
+
+btnRock.addEventListener('click', function(e) {
+    playRound(e.target.id);
+})
+btnPaper.addEventListener('click', function(e) {
+    playRound(e.target.id);
+})
+btnScissors.addEventListener('click', function(e) {
+    playRound(e.target.id);
+})
+
+//Global variables
+let wins = 0
+let losses = 0
+let ties = 0
+let bestOf = 5  //stop when player/computer reaches this many wins
+
+function playRound(playerSelection){
+    let computerSelection = getComputerChoice();
+    let result = [];    
+
+    // Tie conditions
+    if (playerSelection === computerSelection){
+        result = ["tie", "Tie!"];
+    }
+    
+    //Player win conditions
+    else if(playerSelection === "rock" && computerSelection === "scissors"){
+        result = ["win", "You win! Rock beats Scissors"];
+    }
+    else if(playerSelection === "paper" && computerSelection === "rock"){
+        result = ["win", "You win! Paper covers Rock"];
+    }
+    else if(playerSelection === "scissors" && computerSelection === "paper"){
+        result = ["win", "You win! Scissors cut Paper"];
+    }
+    
+    //Player lose conditions
+    else if(playerSelection === "rock" && computerSelection === "paper"){
+        result = ["loss", "You lose! Paper covers Rock"];
+    }
+    else if(playerSelection === "paper" && computerSelection === "scissors"){
+        result = ["loss", "You lose! Scissors cut Paper"];
+    }
+    else if(playerSelection === "scissors" && computerSelection === "rock"){
+        result = ["loss", "You lose! Rock beats Scissors"]
+    }
+    else{
+    console.log("Invalid game outcome");
+    }
+    
+    updateTotals(result);
+}
+
+function updateTotals(result){
+    //Update results
+    if (result[0] === "tie") {
+        ties++;
+        const tieText = document.querySelector('.ties .lower');
+        tieText.textContent = ties;
+    }
+    else if (result[0] === "win") {
+        wins++;
+        const winText = document.querySelector('.wins .lower');
+        winText.textContent = wins;
+    }
+    else if (result[0] === "loss") {
+        losses++;
+        const lossesText = document.querySelector('.loses .lower');
+        lossesText.textContent = losses;
+    }
+    else {
+        alert("Error: not win, loss, or tie");
+    }
+    
+    //update round message
+    const roundMessage = document.querySelector('.result');
+    roundMessage.textContent = result[1];
+    console.log(result);
+}
+
+function getComputerChoice(){
+    //generate a random computer choice. 1 for rock, 2 for paper, 3 for scissors.   
+    //generate random number between 1 and 3. Formula is: Math.floor(Math.random() * (max - min + 1)) + min;
+    let randomNumber = Math.floor(Math.random() * 3) + 1;
+    let computerChoice
+    switch(randomNumber){
+        case 1:
+            computerChoice = "rock"
+            break;
+        case 2: 
+            computerChoice = "paper"
+            break;
+        case 3:
+            computerChoice = "scissors"
+            break;
+        default:
+            computerChoice = "error"
+            alert("Error: invalid computer choice")
+            break;
+    }
+    return computerChoice
+}
+
+
+/*
 game()
 
 function game(){   
@@ -5,7 +115,7 @@ function game(){
     let computerWins = 0
     let ties = 0
     let games = 0
-    let bestOf = 3  //Best of how many games
+    //let bestOf = 3  //Best of how many games
     let keepPlaying = true
     let roundMessage = "Message returned after playing a round"
     let result = "First four letter of roundMessage for calculating wins and loses"
@@ -61,86 +171,6 @@ function game(){
 
 }
 
-function playRound(playerSelection, computerSelection){
-    let outcome
-    
-    //make inputs lower case to avoid case sensitivity
-    playerSelection = playerSelection.toLowerCase()
-    computerSelection = computerSelection.toLowerCase()
-    
-
-    // Tie conditions
-    if (playerSelection === computerSelection){
-        result = "Tie! " + playerSelection + " ties with " + computerSelection
-    }
-    
-    //Player win conditions
-    else if(playerSelection === "rock" && computerSelection === "scissors"){
-        result = "You win! Rock beats Scissors"
-    }
-    else if(playerSelection === "paper" && computerSelection === "rock"){
-        result = "You win! Paper covers Rock"
-    }
-    else if(playerSelection === "scissors" && computerSelection === "paper"){
-        result = "You win! Scissors cut Paper"
-    }
-    
-    //Player lose conditions
-    else if(playerSelection === "rock" && computerSelection === "paper"){
-        result = "You lose! Paper covers Rock"
-    }
-    else if(playerSelection === "paper" && computerSelection === "scissors"){
-        result = "You lose! Scissors cut Paper"
-    }
-    else if(playerSelection === "scissors" && computerSelection === "rock"){
-        result = "You lose! Rock beats Scissors"
-    }
-    else{
-    console.log("Invalid game outcome")
-    }
-    return result
-}
-
-function getPlayerChoice(){
-    
-    let playerChoice = prompt("Rock, Paper, or Scissors?")
-    playerChoice = playerChoice.toLowerCase()
-    
-    while(true){
-        if(playerChoice === "rock" || playerChoice === "paper" || playerChoice === "scissors"){ //
-            return playerChoice
-        }
-        else{
-            alert("Error: invalid choice. Please make another selection")
-            playerChoice = prompt("Rock, Paper, or Scissors?")
-            playerChoice = playerChoice.toLowerCase()
-        }
-    }
-}
-
-function getComputerChoice(){
-    //generate a random computer choice. 1 for rock, 2 for paper, 3 for scissors.   
-    //generate random number between 1 and 3. Formula is: Math.floor(Math.random() * (max - min + 1)) + min;
-    let randomNumber = Math.floor(Math.random() * 3) + 1;
-    let computerChoice
-    switch(randomNumber){
-        case 1:
-            computerChoice = "Rock"
-            break;
-        case 2: 
-            computerChoice = "Paper"
-            break;
-        case 3:
-            computerChoice = "Scissors"
-            break;
-        default:
-            computerChoice = "Invalid"
-            alert("Error: invalid computer choice")
-            break;
-    }
-    return computerChoice
-}
-
 function playAgain(){    //Validates input
     let playAgain = prompt("Would you like to play again? Y/N")
     playAgain = playAgain.toLowerCase()
@@ -158,3 +188,4 @@ function playAgain(){    //Validates input
         }
     }
 }
+*/

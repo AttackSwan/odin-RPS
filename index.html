@@ -3,9 +3,33 @@
     <head>
         <meta charset="UTF-8">
         <title>Rock Paper Scissors</title>
-        <script src="javascript.js"></script>
+        <link rel="stylesheet" href="styles.css">
+        <script src="javascript.js" defer></script>
     </head>
     <body>
+        <div id="container">
+            <div class="header">Rock Paper Scissors</div>
+            <div class="display">
+                <div class="wins">
+                    <div class="upper">WINS</div>
+                    <div class="lower">0</div>
+                </div>
+                <div class="loses">
+                    <div class="upper">LOSES</div>
+                    <div class="lower">0</div>
+                </div>
+                <div class="ties">
+                    <div class="upper">TIES</div>
+                    <div class="lower">0</div>
+                </div>
+            </div>
+            <div class="result">Press a button to begin a game!</div>
+            <div class="buttons">
+                <button id="rock">Rock</button>
+                <button id="paper">Paper</button>
+                <button id="scissors">Scissors</button>
+            </div>
+        </div>
         <!-- Blank for this project as only focusing on JavaScript -->
     </body>
 </html>
