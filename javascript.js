@@ -59,10 +59,6 @@ function createListeners(){
     })
 }
 
-function removeTransition(){
-    console.log("Transition end");
-}
-
 function updateTotals(result){
     if (result[0] === "tie") {
         ties++;

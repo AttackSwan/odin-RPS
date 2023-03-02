@@ -1,6 +1,5 @@
 body {
     background-color: #1d1e22;
-    
 }
 
 .header {
@@ -24,6 +23,7 @@ body {
     margin: 32px auto;
     gap: 32px;
 }
+
 .upper,
 .lower {
     display: flex;
