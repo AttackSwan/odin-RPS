@@ -47,10 +47,20 @@ function playRound(playerSelection){
 function createListeners(){
     const buttons = document.querySelectorAll('button');
     buttons.forEach((button) => {
+        //click listener
         button.addEventListener('click', (e) => {
             playRound(e.target.id);
+            e.target.classList.add('pressed');
         })
+        //transition listener
+        button.addEventListener('transitionend', (e) => {
+            e.target.classList.remove('pressed');
+        });
     })
+}
+
+function removeTransition(){
+    console.log("Transition end");
 }
 
 function updateTotals(result){
