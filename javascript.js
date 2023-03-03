@@ -3,7 +3,7 @@ createListeners();
 let wins = 0
 let losses = 0
 let ties = 0
-let bestOf = 5  //stop when player/computer reaches this many wins
+let bestOf = 1  //stop when player/computer reaches this many wins
 
 function playRound(playerSelection){
     let computerSelection = getComputerChoice();
@@ -125,13 +125,13 @@ function checkEndGame(wins, losses){
 
 function playAgain() {
     hideElement('.buttons');
-    blockElement('.againContainer');
+    showElement('.againContainer', 'block');
 }
 
 function resetGame() {
     updateTotals(["reset"]);
     hideElement('.againContainer'); 
-    flexElement('.buttons');
+    showElement('.buttons', 'flex');
     changeMessage('.result', "Press a button to begin a game!");
 }
 
@@ -145,13 +145,9 @@ function hideElement(hide){
     const element = document.querySelector(hide);
     element.setAttribute('style', 'display: none;');
 }
-function flexElement(flex){
-    const toFlex = document.querySelector(flex);
-    toFlex.setAttribute('style', 'display: flex;');
-}
-function blockElement(block){
-    const toBlock = document.querySelector(block);
-    toBlock.setAttribute('style', 'display: block;');
+function showElement(element, display){
+    const changeElement = document.querySelector(element);
+    changeElement.setAttribute('style', 'display :' + display + ";");
 }
 function changeMessage(element, message){
     const changeElement = document.querySelector(element);
