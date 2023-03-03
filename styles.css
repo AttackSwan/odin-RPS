@@ -37,12 +37,12 @@ body {
     justify-content: center;
     gap: 32px;
     margin-top: 24px;
+    margin-bottom: 64px;
 }
 
 button {
     border: .4rem solid #393f4d;
     border-radius: 1rem;
-    transition: all .07s ease;
     padding: 1rem;
     width: 15rem;
     background: rgba(0,0,0,0.4);
@@ -51,18 +51,22 @@ button {
     font-size: 2em;
 }
 
-.pressed {
-    transform: scale(1.1);
-    border-color: #ffc600;
-    box-shadow: 0 0 1rem #ffc600;
-  }
-
-.result {
+.result,
+.againMessage {
     display: flex;
     justify-content: center;
     color: #feda6a;
-    margin-bottom: 64px;
+    margin-bottom: 48px;
     font-size: 2em;
     text-shadow: 0 0 .5rem black;
 }
 
+.againButtons {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+
+.againContainer {
+    display: none;
+}

@@ -11,7 +11,7 @@ function playRound(playerSelection){
 
     // Tie conditions
     if (playerSelection === computerSelection){
-        result = ["tie", "Tie!"];
+        result = ["tie", "Tie: " + playerSelection + " vs " + computerSelection];
     }
     
     //Player win conditions
@@ -35,13 +35,24 @@ function playRound(playerSelection){
     else if(playerSelection === "scissors" && computerSelection === "rock"){
         result = ["loss", "You lose! Rock beats Scissors"]
     }
+    
+    //End of game conditions
+    else if (playerSelection === "againYes"){
+        resetGame();
+    }
+    else if (playerSelection === "againNo"){
+        endGame();
+    }
+    
     else{
     console.log("Invalid game outcome");
     }
     
-    updateTotals(result);
-    updateRoundMessage(result);
-    checkEndGame(wins, losses);
+    if (result.length !== 0){
+        updateTotals(result);
+        changeMessage('.result', result[1]);
+        checkEndGame(wins, losses);
+        }
 }
 
 function createListeners(){
@@ -50,57 +61,8 @@ function createListeners(){
         //click listener
         button.addEventListener('click', (e) => {
             playRound(e.target.id);
-            e.target.classList.add('pressed');
         })
-        //transition listener
-        button.addEventListener('transitionend', (e) => {
-            e.target.classList.remove('pressed');
-        });
     })
-}
-
-function updateTotals(result){
-    if (result[0] === "tie") {
-        ties++;
-        const tieText = document.querySelector('.ties .lower');
-        tieText.textContent = ties;
-    }
-    else if (result[0] === "win") {
-        wins++;
-        const winText = document.querySelector('.wins .lower');
-        winText.textContent = wins;
-    }
-    else if (result[0] === "loss") {
-        losses++;
-        const lossesText = document.querySelector('.loses .lower');
-        lossesText.textContent = losses;
-    }
-    else {
-        alert("Error: not win, loss, or tie");
-    }
-}
-
-function updateRoundMessage(result){
-       const roundMessage = document.querySelector('.result');
-       roundMessage.textContent = result[1];
-}
-
-function checkEndGame(wins, losses){
-    if (wins === bestOf){
-        const winText = document.querySelector('.result');
-        winText.textContent = "Congratulations! You win!";
-        endGame();
-    }
-    else if (losses === bestOf){
-        const lossText = document.querySelector('.result');
-        lossText.textContent = "Computer Wins!";
-        endGame();
-    }
-}
-
-function endGame() {
-    const buttons = document.querySelector('.buttons');
-    buttons.remove();
 }
 
 function getComputerChoice(){
@@ -124,4 +86,74 @@ function getComputerChoice(){
             break;
     }
     return computerChoice
+}
+
+function updateTotals(result){
+    if (result[0] === "tie") {
+        ties++;
+        changeMessage('.ties .lower', ties);
+    }
+    else if (result[0] === "win") {
+        wins++;
+        changeMessage('.wins .lower', wins);
+    }
+    else if (result[0] === "loss") {
+        losses++;
+        changeMessage('.losses .lower', losses)
+    }
+    else if (result[0] === "reset"){
+        wins = losses = ties = 0;
+        changeMessage('.ties .lower', ties);
+        changeMessage('.wins .lower', wins);
+        changeMessage('.losses .lower', losses)
+    }
+    else {
+        alert("Error: not win, loss, or tie");
+    }
+}
+
+function checkEndGame(wins, losses){
+    if (wins === bestOf){
+        changeMessage('.result', "Congratulations! You win!");
+        playAgain();
+    }
+    else if (losses === bestOf){
+        changeMessage('.result', "Computer Wins!")
+        playAgain();
+    }
+}
+
+function playAgain() {
+    hideElement('.buttons');
+    blockElement('.againContainer');
+}
+
+function resetGame() {
+    updateTotals(["reset"]);
+    hideElement('.againContainer'); 
+    flexElement('.buttons');
+    changeMessage('.result', "Press a button to begin a game!");
+}
+
+function endGame(){
+    hideElement('.againContainer');
+    hideElement('.buttons');
+    changeMessage('.result', "Thanks for playing!");
+}
+
+function hideElement(hide){
+    const element = document.querySelector(hide);
+    element.setAttribute('style', 'display: none;');
+}
+function flexElement(flex){
+    const toFlex = document.querySelector(flex);
+    toFlex.setAttribute('style', 'display: flex;');
+}
+function blockElement(block){
+    const toBlock = document.querySelector(block);
+    toBlock.setAttribute('style', 'display: block;');
+}
+function changeMessage(element, message){
+    const changeElement = document.querySelector(element);
+    changeElement.textContent = message;
 }
